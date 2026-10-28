@@ -90,6 +90,7 @@ class DemoPersona(BaseModel):
     email: str
     name: str
     title: str | None
+    avatar_color: str
     role: Role
     organization: str
 
@@ -493,6 +494,7 @@ class AuditOut(Out):
     id: uuid.UUID
     created_at: datetime
     actor_type: str
+    actor_user_id: uuid.UUID | None
     actor_label: str
     action: str
     entity_type: str

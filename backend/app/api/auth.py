@@ -49,7 +49,8 @@ def _start_session(db: DB, user: User, request: Request, response: Response) -> 
     db.execute(
         delete(UserSession).where(UserSession.user_id == user.id, UserSession.expires_at < now)
     )
-    if user.last_seen_at is not None:
+    # Demo personas keep their seeded "last visit" so every reviewer sees the same briefing.
+    if user.last_seen_at is not None and not user.is_demo:
         user.previous_seen_at = user.last_seen_at
     user.last_seen_at = now
     response.set_cookie(
@@ -87,7 +88,14 @@ def demo_personas(db: DB) -> list[DemoPersona]:
     ).all()
     rows = sorted(rows, key=lambda r: (r[2].name, -ROLE_RANK[r[1].role], r[0].name))
     return [
-        DemoPersona(email=u.email, name=u.name, title=u.title, role=m.role, organization=o.name)
+        DemoPersona(
+            email=u.email,
+            name=u.name,
+            title=u.title,
+            avatar_color=u.avatar_color,
+            role=m.role,
+            organization=o.name,
+        )
         for u, m, o in rows
     ]
 

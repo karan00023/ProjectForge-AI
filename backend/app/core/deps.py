@@ -75,7 +75,8 @@ def get_current_user(request: Request, db: DB) -> User:
         session.last_used_at = now
     if user.last_seen_at is None or now - user.last_seen_at > _SEEN_GRANULARITY:
         # A long gap starts a new visit: remember where the previous one ended.
-        if user.last_seen_at is None or now - user.last_seen_at > _NEW_VISIT_GAP:
+        new_visit = user.last_seen_at is None or now - user.last_seen_at > _NEW_VISIT_GAP
+        if new_visit and not user.is_demo:
             user.previous_seen_at = user.last_seen_at
         user.last_seen_at = now
     return user
