@@ -1,0 +1,36 @@
+# Local stack: PostgreSQL (with pgvector), FastAPI backend, Next.js frontend.
+#   docker compose up --build      → http://localhost:3000
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: projectforge
+      POSTGRES_PASSWORD: projectforge  # local development only
+      POSTGRES_DB: projectforge
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U projectforge"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://projectforge:projectforge@db:5432/projectforge
+      DEMO_MODE: "true"
+      SEED_DEMO: "true"
+    depends_on:
+      db: { condition: service_healthy }
+    ports: ["8000:8000"]
+
+  frontend:
+    build:
+      context: ./frontend
+      args: { API_URL: "http://backend:8000" }
+    depends_on: [backend]
+    ports: ["3000:3000"]
+
+volumes:
+  pgdata:

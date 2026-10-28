@@ -245,7 +245,9 @@ export default function TimelinePage() {
           <div aria-hidden className="pointer-events-none absolute bottom-0 top-8 z-0 w-px bg-accent-3/70" style={{ left: LABEL_W + todayLeft }} />
 
           {/* Milestones */}
-          <div className="border-b border-line bg-surface-2/40 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-faint">Milestones</div>
+          <div className="border-b border-line bg-surface-2/40 py-1 text-[11px] font-semibold uppercase tracking-wider text-faint">
+            <span className="sticky left-0 px-3">Milestones</span>
+          </div>
           {milestones.length === 0 && <p className="px-3 py-2 text-xs text-muted">No milestones.</p>}
           {milestones.map((m) => {
             const forecast = m.actual_date ?? m.planned_date;

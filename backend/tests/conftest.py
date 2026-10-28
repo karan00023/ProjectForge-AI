@@ -38,6 +38,11 @@ BACKEND_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 @pytest.fixture(scope="session", autouse=True)
 def migrated_db() -> Iterator[None]:
     engine = get_engine()
+    # The harness wipes the schema; never let it touch a development or production database.
+    if not (engine.url.database or "").endswith("_test"):
+        pytest.exit(
+            f"Refusing to run tests against '{engine.url.database}': name must end in _test"
+        )
     with engine.begin() as conn:
         conn.execute(text("DROP SCHEMA public CASCADE; CREATE SCHEMA public;"))
     cfg = Config(os.path.join(BACKEND_DIR, "alembic.ini"))

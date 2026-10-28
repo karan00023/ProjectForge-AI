@@ -20,7 +20,7 @@ Status: ✅ done · 🟡 in progress · ⬜ not started. (Updated in `PROGRESS.m
 | CORE-11 | As anyone I can see an activity feed of what changed | P1 | Driven by audit log; filter by project; "since last login" marker | ✅ |
 | CORE-12 | Org timezone and working calendar | P2 | Overdue/variance respect org TZ and holidays | ⬜ |
 | CORE-13 | Global search across projects, items, RAID, decisions | P1 | Postgres FTS, tenant-scoped, ranked | ✅ |
-| CORE-14 | Sprints: create, commit items, close with spillover | P1 | Closing moves unfinished items to next sprint/backlog and records spillover | 🟡 (create/commit; close+spillover in Phase 4) |
+| CORE-14 | Sprints: create, commit items, close with spillover | P1 | Closing moves unfinished items to next sprint/backlog and records spillover | 🟡 (API create/edit + commit items; sprint UI, close + spillover in Phase 4) |
 | CORE-15 | Bulk import projects/items from CSV/JSON | P1 | Validation report per row; nothing persisted on any error unless "skip invalid" chosen | ⬜ |
 
 ## EPIC DASH — Command center
@@ -101,6 +101,6 @@ Status: ✅ done · 🟡 in progress · ⬜ not started. (Updated in `PROGRESS.m
 | SEC-2 | Login rate limiting | P0 | ✅ (in-process) |
 | SEC-3 | PostgreSQL RLS as second isolation layer | P2 | ⬜ |
 | SEC-4 | Security headers, CSRF header check | P0 | ✅ |
-| SEC-5 | Dependency + secret scanning in CI | P1 | ⬜ (pip-audit/npm audit in CI planned) |
+| SEC-5 | Dependency + secret scanning in CI | P1 | 🟡 (pip-audit/npm audit run as warnings; secret scanning not set up) |
 | SEC-6 | Prompt-injection test corpus for AI features | P1 | ⬜ |
 | SEC-7 | Sensitive data redaction before LLM calls | P1 | ⬜ |
